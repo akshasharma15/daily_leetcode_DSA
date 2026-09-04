@@ -1,1 +1,19 @@
-
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int,int>mp;
+        int currentsum=0;
+        int cnt=0;
+        mp[0]=1;
+        for(int i =0 ; i<nums.size(); i++){
+            currentsum = currentsum + nums[i];
+            int prevsum = currentsum - k;
+            if(mp.find(prevsum)!=mp.end()){
+                cnt+=mp[prevsum];
+            }
+            mp[currentsum]++;
+        }
+        return cnt;
+        
+    }
+};
