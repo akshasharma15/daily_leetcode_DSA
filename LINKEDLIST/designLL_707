@@ -1,1 +1,117 @@
+class MyLinkedList {
+public:
 
+    struct ListNode {
+        int val;
+        ListNode* next;
+
+        ListNode(int x) {
+            val = x;
+            next = NULL;
+        }
+    };
+
+    ListNode* head;
+
+    MyLinkedList() {
+        head = NULL;
+    }
+
+    int get(int index) {
+        ListNode* temp = head;
+
+        for(int i = 0; i < index; i++) {
+            if(temp == NULL)
+                return -1;
+
+            temp = temp->next;
+        }
+
+        if(temp == NULL)
+            return -1;
+
+        return temp->val;
+    }
+
+    void addAtHead(int val) {
+        ListNode* newNode = new ListNode(val);
+
+        newNode->next = head;
+        head = newNode;
+    }
+
+    void addAtTail(int val) {
+        ListNode* newNode = new ListNode(val);
+
+        if(head == NULL) {
+            head = newNode;
+            return;
+        }
+
+        ListNode* temp = head;
+
+        while(temp->next != NULL) {
+            temp = temp->next;
+        }
+
+        temp->next = newNode;
+    }
+
+    void addAtIndex(int index, int val) {
+
+        if(index == 0) {
+            addAtHead(val);
+            return;
+        }
+
+        ListNode* temp = head;
+
+        // Move to node just before index
+        for(int i = 0; i < index - 1; i++) {
+            if(temp == NULL)
+                return;
+
+            temp = temp->next;
+        }
+
+        if(temp == NULL)
+            return;
+
+        ListNode* newNode = new ListNode(val);
+
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+
+    void deleteAtIndex(int index) {
+
+        if(head == NULL)
+            return;
+
+        if(index == 0) {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+            return;
+        }
+
+        ListNode* temp = head;
+
+        // Move to node just before index
+        for(int i = 0; i < index - 1; i++) {
+            if(temp == NULL)
+                return;
+
+            temp = temp->next;
+        }
+
+        if(temp == NULL || temp->next == NULL)
+            return;
+
+        ListNode* toDelete = temp->next;
+
+        temp->next = temp->next->next;
+
+        delete toDelete;
+    }
+};
